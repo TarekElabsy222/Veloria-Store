@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Veloria - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.0.0/uicons-regular-straight/css/uicons-regular-straight.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="~/css/styles.css" rel="stylesheet" />
+
+</head>
+<body>
+    <!--=============== HEADER ===============-->
+    <partial name="_HeaderPartial" />
+    <!--=============== MAIN ===============-->
+    @RenderBody()
+    <!--=============== FOOTER ===============-->
+    <partial name="_FooterPartial" />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="~/js/toast.js"></script>
+    <script src="~/js/wishlist.js"></script>
+    <script src="~/js/cart.js"></script>
+    <script src="~/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+   
+</body>
+</html>

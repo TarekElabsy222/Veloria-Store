@@ -1,0 +1,75 @@
+﻿@using Veloria_Store.Application.ViewModels.ProductViewModels
+@model IEnumerable<ProductCardVM>
+
+<main class="main">
+
+    <section class="breadcrumb">
+
+        <ul class="breadcrumb__list flex container">
+
+            <li>
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="breadcrumb__link">
+
+                    Home
+
+                </a>
+            </li>
+
+            <li>
+                <span class="breadcrumb__link">></span>
+            </li>
+
+            <li>
+                <span class="breadcrumb__link">
+
+                    Search
+
+                </span>
+            </li>
+
+        </ul>
+
+    </section>
+
+    <section class="products container section--lg">
+
+        <h3 class="section__title">
+
+            Search Results for
+
+            "<strong>@ViewBag.Keyword</strong>"
+
+        </h3>
+
+        <br />
+
+        <div class="products__container grid">
+
+            @if (Model.Any())
+            {
+                @foreach (var product in Model)
+                {
+                    <partial name="_ProductCard"
+                             model="product" />
+                }
+            }
+            else
+            {
+                <div style="padding:60px;text-align:center;width:100%;">
+
+                    <h3>
+
+                        No products found.
+
+                    </h3>
+
+                </div>
+            }
+
+        </div>
+
+    </section>
+
+</main>

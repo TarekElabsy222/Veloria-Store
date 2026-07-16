@@ -1,0 +1,137 @@
+﻿<header class="header">
+    <div class="header__top">
+        <div class="header__container container">
+            <div class="header__contact">
+                <span>(+966573611664)</span>
+                <span>Our location</span>
+            </div>
+            <p class="header__alert-news">
+                Super Values Deals - Save more coupons
+            </p>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <p class="header__top-action">                   
+                       
+                    Hello @User.Identity.Name
+                    
+                </p>
+            }            
+        </div>
+    </div>
+
+    <nav class="nav container">
+        <a asp-controller="Home" asp-action="Index" class="nav__logo">
+            <img class="nav__logo-img"
+                 src="~/img/logo.jpg"
+                 alt="website logo" />
+        </a>
+        <div class="nav__menu" id="nav-menu">
+            <div class="nav__menu-top">
+                <a asp-action="Index" asp-controller="Home" class="nav__menu-logo">
+                    <img src="./~/img/logo.jpg" alt="">
+                </a>
+                <div class="nav__close" id="nav-close">
+                    <i class="fi fi-rs-cross-small"></i>
+                </div>
+            </div>
+            <ul class="nav__list">
+                <li class="nav__item">
+                    <a asp-action="Index" asp-controller="Home" class="nav__link active-link">Home</a>
+                </li>
+                <li class="nav__item">
+                    <a asp-action="Shop" asp-controller="Home" class="nav__link">Shop</a>
+                </li>                
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav__item">
+                            <a class="nav__link"
+                            asp-area="Admin"
+                            asp-controller="Dashboard"
+                            asp-action="Index">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav__item">
+                            <a class="nav__link" asp-area="Identity"
+                               asp-page="/Account/Logout">
+                                Logout
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav__item">
+                            <a class="nav__link" asp-controller="Home"
+                            asp-action="Order">
+                                My Orders
+                            </a>
+                        </li>
+                        <li class="nav__item">
+                            <a class="nav__link" asp-area="Identity"
+                            asp-page="/Account/Logout">
+                                Logout
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="nav__item">
+                        <a class="nav__link" asp-area="Identity"
+                           asp-page="/Account/Login">
+                            Login
+                        </a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a class="nav__link" asp-area="Identity"
+                           asp-page="/Account/Register">
+                            Register
+                        </a>
+                    </li>
+                }
+            </ul>
+            <div class="header__search">
+
+                <form asp-controller="Home"
+                      asp-action="Search"
+                      method="get"
+                      style="display:flex;width:100%;">
+
+                    <input type="text"
+                           name="keyword"
+                           value="@Context.Request.Query["keyword"]"
+                           placeholder="Search For Items..."
+                           class="form__input" />
+
+                    <button type="submit"
+                            class="search__btn">
+
+                        <img src="~/img/search.png"
+                             alt="search icon" />
+
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+        <div class="header__user-actions">
+            @await Component.InvokeAsync("Header")
+
+            <a asp-area="" asp-action="Index" asp-controller="Cart" class="header__action-btn" title="Cart">
+                <img src="~/img/icon-cart.svg" alt="" />
+                <span class="count header-cart-count">
+                    @await Component.InvokeAsync("CartCount")
+                </span>
+            </a>
+            
+            <div class="header__action-btn nav__toggle" id="nav-toggle">
+                <img src="~/img//menu-burger.svg" alt="">
+            </div>
+        </div>
+    </nav>
+</header>

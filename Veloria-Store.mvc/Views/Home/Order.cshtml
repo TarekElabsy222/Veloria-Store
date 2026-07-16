@@ -1,0 +1,221 @@
+﻿@using Veloria_Store.Application.ViewModels.Order
+@model IEnumerable<UserOrderVM>
+
+<main class="main">
+
+    <!--=============== BREADCRUMB ===============-->
+
+    <section class="breadcrumb">
+
+        <ul class="breadcrumb__list flex container">
+
+            <li>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="breadcrumb__link">
+
+                    Home
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <span class="breadcrumb__link">
+
+                    >
+
+                </span>
+
+            </li>
+
+            <li>
+
+                <span class="breadcrumb__link">
+
+                    My Orders
+
+                </span>
+
+            </li>
+
+        </ul>
+
+    </section>
+
+    <!--=============== ORDERS ===============-->
+
+    <section class="accounts section--lg">
+
+        <div class="container">
+
+            <div class="section__title">
+
+                <h3>
+
+                    My Orders
+
+                </h3>
+
+                <p>
+
+                    Track all your recent orders and view their current status.
+
+                </p>
+
+            </div>
+
+            <div class="tab__body">
+
+                <table class="placed__order-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+
+                                Order
+
+                            </th>
+
+                            <th>
+
+                                Date
+
+                            </th>
+
+                            <th>
+
+                                Status
+
+                            </th>
+
+                            <th>
+
+                                Total
+
+                            </th>
+
+                            <th>
+
+                                Action
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.Any())
+                        {
+                            @foreach (var order in Model)
+                            {
+                                <tr>
+
+                                    <td>
+
+                                        @order.OrderNumber
+
+                                    </td>
+
+                                    <td>
+
+                                        @order.CreatedAt.ToString("dd/MM/yyyy")
+
+                                    </td>
+
+                                    <td>
+
+                                        @switch (order.StatusName)
+                                        {
+                                            case "Pending":
+                                                <span style="color:#f39c12;font-weight:600;">
+                                                    Pending
+                                                </span>
+                                                break;
+
+                                            case "Processing":
+                                                <span style="color:#3498db;font-weight:600;">
+                                                    Processing
+                                                </span>
+                                                break;
+
+                                            case "Shipped":
+                                                <span style="color:#8e44ad;font-weight:600;">
+                                                    Shipped
+                                                </span>
+                                                break;
+
+                                            case "Delivered":
+                                                <span style="color:#27ae60;font-weight:600;">
+                                                    Delivered
+                                                </span>
+                                                break;
+
+                                            case "Cancelled":
+                                                <span style="color:#e74c3c;font-weight:600;">
+                                                    Cancelled
+                                                </span>
+                                                break;
+
+                                            default:
+                                                @order.StatusName
+                                                break;
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        $@order.Total
+
+                                    </td>
+
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+
+                                <td colspan="5"
+                                    style="text-align:center;padding:50px;">
+
+                                    <h4>
+
+                                        You haven't placed any orders yet.
+
+                                    </h4>
+
+                                    <br />
+
+                                    <a asp-controller="Shop"
+                                       asp-action="Index"
+                                       class="btn">
+
+                                        Continue Shopping
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>

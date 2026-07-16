@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Order Success";
+}
+
+<main class="main">
+
+    <!--=============== BREADCRUMB ===============-->
+    <section class="breadcrumb">
+        <ul class="breadcrumb__list flex container">
+            <li>
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="breadcrumb__link">
+                    Home
+                </a>
+            </li>
+
+            <li><span class="breadcrumb__link">></span></li>
+
+            <li>
+                <span class="breadcrumb__link">
+                    Order Success
+                </span>
+            </li>
+        </ul>
+    </section>
+
+    <!--=============== SUCCESS ===============-->
+    <section class="section--lg">
+        <div class="container">
+
+            <div class="success__box">
+
+                <div class="success__icon">
+                    <i class="fi fi-rs-check"></i>
+                </div>
+
+                <h2 class="success__title">
+                    Thank You For Your Order!
+                </h2>
+
+                <p class="success__text">
+                    Your order has been placed successfully.
+                </p>
+
+                <p class="success__text">
+                    Your Order Number is
+                    <strong>@ViewBag.OrderNumber</strong>
+                </p>
+
+                <p class="success__text">
+                    We have received your order and our team will review it shortly.
+                    We will contact you soon to confirm your order and provide the next steps.
+                </p>
+
+                <div class="success__actions">
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="btn">
+                        Continue Shopping
+                    </a>
+
+                    <a asp-controller="Order"
+                       asp-action="Index"
+                       class="btn btn--secondary">
+                        My Orders
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</main>

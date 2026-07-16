@@ -1,0 +1,134 @@
+﻿@using Veloria_Store.Application.ViewModels.BrandViewModel
+@model IEnumerable<BrandVM>
+
+<div class="page-container">
+
+    <div class="page-header">
+
+        <div class="page-title">
+            <h2>Brands</h2>
+            <p>Manage store brands.</p>
+        </div>
+
+        <button class="btn btn-primary"
+                onclick="openAddBrandModal()">
+            Add Brand
+        </button>
+
+    </div>
+
+    <div class="filters-bar">
+
+        <div class="search-input-group">
+
+            <input type="text"
+                   id="brand-search"
+                   placeholder="Search brand..." />
+
+        </div>
+
+    </div>
+
+    <div class="data-card">
+
+        <div class="table-responsive">
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="brands-table-body"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Modals {
+
+    <div class="modal-backdrop" id="brand-modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h3 id="modal-title">
+                    Add Brand
+                </h3>
+
+                <button class="modal-close-btn"
+                        onclick="closeBrandModal()">
+                    ✕
+                </button>
+
+            </div>
+
+            <form id="brand-form">
+
+                <input type="hidden" id="brand-id" />
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Brand Name
+
+                        </label>
+
+                        <input type="text"
+                               id="brand-name"
+                               class="form-control"
+                               required />
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-outline"
+                            onclick="closeBrandModal()">
+
+                        Cancel
+
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        Save Brand
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+}
+
+@section Scripts {
+
+    <script src="~/admin/js/admin-brands.js"></script>
+
+}

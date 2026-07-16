@@ -1,0 +1,157 @@
+﻿@model List<ProductCardVM>
+@{
+    ViewData["Title"] = "Wishlist";
+}
+
+
+<main class="main">
+    <!--=============== BREADCRUMB ===============-->
+    <section class="breadcrumb">
+        <ul class="breadcrumb__list flex container">
+            <li><a asp-action="Index" asp-controller="Home" class="breadcrumb__link">Home</a></li>
+            <li><span class="breadcrumb__link"></span>></li>
+            <li><span class="breadcrumb__link">Shop</span></li>
+            <li><span class="breadcrumb__link"></span>></li>
+            <li><span class="breadcrumb__link">Wishlist</span></li>
+        </ul>
+    </section>
+
+    <!--=============== WISHLIST ===============-->
+    <section class="wishlist section--lg container">
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5">
+                <h3>Your wishlist is empty.</h3>
+
+                <a asp-controller="Home" asp-action="Shop" class="btn mt-3">
+                    Continue Shopping
+                </a>
+            </div>
+        }
+
+        else
+        {
+            <div class="table__container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Action</th>
+                            <th>Rename</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <img src="@(item.Images.FirstOrDefault() ?? "/images/no-image.png")"
+                                         class="table__img"
+                                         alt="@item.Name" />
+
+                                </td>
+
+                                <td>
+
+                                    <h3 class="table__title">
+
+                                        <a class="table__title" asp-controller="Product"
+                                           asp-action="Details"
+                                           asp-route-id="@item.Id">
+
+                                            @item.Name
+
+                                        </a>
+
+                                    </h3>
+
+                                    <p class="table__description">
+
+                                        @item.Category
+
+                                    </p>
+
+                                </td>
+
+                                <td>
+
+                                    @if (item.DiscountPercentage > 0)
+                                    {
+                                        var newPrice = item.Price -
+                                        (item.Price * item.DiscountPercentage / 100);
+
+                                        <span class="table__price">
+
+                                            @item.Price.ToString("0.00") EGP
+
+                                        </span>
+
+                                        <br />
+
+                                        
+                                    }
+                                    else
+                                    {
+                                        <span class="table__price">
+
+                                            @item.Price.ToString("0.00") EGP
+
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <span class="table__stock">
+
+                                        @item.Category
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    <a href="#"
+                                       class="btn btn--sm add-cart"
+                                       data-id="@item.Id" >
+
+                                        Add to Cart
+                                    </a>
+
+                                   
+
+                                </td>
+
+                                <td>
+
+                                    <a href="#"
+                                       class="remove-wishlist"
+                                       data-id="@item.Id">
+
+                                        <i class="fi fi-rs-trash table__trash"></i>
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                                               
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </section>
+
+    
+</main>

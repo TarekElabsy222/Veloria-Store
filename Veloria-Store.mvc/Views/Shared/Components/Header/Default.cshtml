@@ -1,0 +1,15 @@
+﻿@using Veloria_Store.Application.ViewModels.Shared
+@model HeaderVM
+
+<a asp-controller="Wishlist"
+   asp-action="Index"
+   class="header__action-btn"
+   title="Wishlist">
+
+    <img src="~/img/icon-heart.svg" alt="Wishlist" />
+
+    <span class="count" id="wishlist-count">
+        @Model.WishlistCount
+    </span>
+
+</a>

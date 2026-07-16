@@ -1,0 +1,121 @@
+﻿@model ProductDetailsPageVM
+<main class="main">
+    <!--=============== BREADCRUMB ===============-->
+    <section class="breadcrumb">
+        <ul class="breadcrumb__list flex container">
+            <li><a asp-controller="Home" asp-action="Index" class="breadcrumb__link">Home</a></li>
+            <li><span class="breadcrumb__link"></span>></li>
+            <li><span class="breadcrumb__link">Fashion</span></li>
+            <li><span class="breadcrumb__link"></span>></li>
+            <li><span class="breadcrumb__link">@Model.Product.Name</span></li>
+        </ul>
+    </section>
+
+    <!--=============== DETAILS ===============-->
+    <section class="details section--lg">
+        <div class="details__container container grid">
+            <div class="details__group">
+
+                @{
+                    var mainImage = Model.Product.Images.FirstOrDefault() ?? "/images/no-image.png";
+                }
+
+                <img id="mainProductImage"  src="@mainImage" alt="@Model.Product.Name"  class="details__img" />
+                @if (Model.Product.Images.Any())
+                {
+                    <div class="details__small-images grid">
+                        @foreach (var image in Model.Product.Images)
+                        {
+                            <img src="@image"
+                                 alt="@Model.Product.Name"
+                                 class="details__small-img"
+                                 onclick="changeMainImage(this)" />
+                        }
+
+                    </div>
+                }
+            </div>
+            <div class="details__group">
+                <h3 class="details__title">@Model.Product.Name</h3>
+                <p class="details__brand">Brand: <span>@Model.Product.Brand</span></p>
+                <div class="details__price flex">
+                    <span class="new__price"> @Model.Product.Price.ToString("C")</span>
+                </div>
+                <p class="short__description">
+                    @Model.Product.Description
+                </p>
+                <ul class="products__list">
+                    <li class="list__item flex">
+                        <i class="fi-rs-crown"></i> Original Product
+                    </li>
+                    <li class="list__item flex">
+                        <i class="fi-rs-refresh"></i> 10 Days Return Policy
+                    </li>
+                    <li class="list__item flex">
+                        <i class="fi-rs-credit-card"></i> Cash on Delivery available
+                    </li>
+                </ul>
+                
+                <div class="details__action">
+                    
+                    <a href="#"
+                       class="action__btn cart__btn add-cart"
+                       data-id="@Model.Product.Id"
+                       aria-label="Add To Cart">
+                        <i class="fi fi-rs-shopping-bag-add"></i>
+                    </a>
+
+                    <a href="#"
+                       class="action__btn add-wishlist"
+                       data-id="@Model.Product.Id"
+                       aria-label="Wishlist">
+                        <i class="fi fi-rs-heart"></i>
+                    </a>
+                </div>
+                <ul class="details__meta">
+                    <li class="meta__list flex"><span>Category:</span> @Model.Product.Category</li>
+                    <li class="meta__list flex"><span>Brand:</span> @Model.Product.Brand</li>
+
+                    <li class="meta__list flex">
+                        <span>Availability:</span>
+
+                        @if (Model.Product.StockQuantity > 0)
+                        {
+                            <span class="text-success">
+                                @Model.Product.StockQuantity Items In Stock
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">
+                                Out Of Stock
+                            </span>
+                        }
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!--=============== PRODUCTS ===============-->
+    <section class="products container section--lg">
+        <h3 class="section__title"><span>Related</span> Products</h3>
+        <div class="products__container grid">
+
+
+            @foreach (var product in Model.RelatedProducts)
+            {
+                <partial name="_ProductCard" model="product" />
+            }
+
+
+
+        </div>
+    </section>
+
+
+</main>
+

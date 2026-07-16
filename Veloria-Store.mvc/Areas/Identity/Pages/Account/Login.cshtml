@@ -1,0 +1,57 @@
+@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+
+<main class="main">
+    <!--=============== BREADCRUMB ===============-->
+    <section class="breadcrumb">
+        <ul class="breadcrumb__list flex container">
+            <li><a asp-area=""  asp-controller="Home" asp-action="Index" class="breadcrumb__link">Home</a></li>
+            <li><span class="breadcrumb__link">></span></li>
+            <li><span class="breadcrumb__link">Login / Register</span></li>
+        </ul>
+    </section>
+
+    <!--=============== LOGIN-REGISTER ===============-->
+    <section class="login-register section--lg">
+        <div class="login-register__container container grid">
+            <div class="login">
+                <h3 class="section__title">Login</h3>
+                <form id="account" method="post" class="form grid">
+                    <input asp-for="Input.Email" class="form__input" autocomplete="username" aria-required="true" placeholder="Your Email" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+
+                    <input asp-for="Input.Password" class="form__input" autocomplete="current-password" aria-required="true" placeholder="Your Password" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+                    <label asp-for="Input.RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+
+                    <div class="form__btn">
+                        <button id="login-submit" type="submit" class="btn">Login</button>
+                    </div>
+                                     
+                    
+
+                </form>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+        </div>
+    </section>
+
+</main>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

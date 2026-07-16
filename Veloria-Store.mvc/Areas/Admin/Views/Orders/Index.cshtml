@@ -1,0 +1,264 @@
+﻿@using Veloria_Store.Domain.Enums
+
+<div class="page-container">
+
+    <div class="page-header">
+
+        <div class="page-title">
+            <h2>Orders</h2>
+            <p>Manage customer orders and update order status.</p>
+        </div>
+
+    </div>
+
+    <div class="filters-bar">
+
+        <div class="search-input-group">
+
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+
+            <input type="text"
+                   id="order-search"
+                   placeholder="Search Order Number...">
+
+        </div>
+
+    </div>
+
+    <div class="data-card">
+
+        <div class="table-responsive">
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Order Number</th>
+
+                        <th>Customer</th>
+
+                        <th>Total</th>
+
+                        <th>Status</th>
+
+                        <th>Date</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="orders-table-body">
+
+                    <tr>
+
+                        <td colspan="6"
+                            style="text-align:center;padding:25px;">
+
+                            Loading...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Modals
+{
+
+    <div class="modal-backdrop" id="order-modal">
+
+        <div class="modal-content"
+             style="max-width:900px;">
+
+            <div class="modal-header">
+
+                <h3>
+                    Order Details
+                </h3>
+
+                <button class="modal-close-btn"
+                        onclick="closeOrderModal()">
+
+                    ✕
+
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Order Number
+
+                        </label>
+
+                        <input id="order-number"
+                               class="form-control"
+                               readonly>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Customer
+
+                        </label>
+
+                        <input id="customer-name"
+                               class="form-control"
+                               readonly>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Email
+
+                        </label>
+
+                        <input id="customer-email"
+                               class="form-control"
+                               readonly>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Phone
+
+                        </label>
+
+                        <input id="customer-phone"
+                               class="form-control"
+                               readonly>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Total
+
+                        </label>
+
+                        <input id="order-total"
+                               class="form-control"
+                               readonly>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select id="order-status"
+                                class="form-control">
+
+                            @foreach (var item in Enum.GetValues<OrderStatus>())
+                            {
+                                <option value="@item">@item</option>
+                            }
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <h4 style="margin-bottom:15px;">
+
+                    Products
+
+                </h4>
+
+                <table class="data-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Image</th>
+
+                            <th>Product</th>
+
+                            <th>Price</th>
+
+                            <th>Qty</th>
+
+                            <th>Total</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="order-items-body">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-outline"
+                        onclick="closeOrderModal()">
+
+                    Close
+
+                </button>
+
+                <button class="btn btn-primary"
+                        onclick="saveOrderStatus()">
+
+                    Save
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+}
+
+
+@section Scripts {
+
+    <script src="~/admin/js/admin-orders.js"></script>
+
+}
