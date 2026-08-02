@@ -99,13 +99,31 @@ namespace Veloria_Store.mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Update(ProductUpdateVM model)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
+            // Get old images
+            var product = await _productService.GetByIdAsync(model.Id);
+
             if (model.Images != null && model.Images.Any())
             {
+                // Delete old files
+                foreach (var image in product.Images)
+                {
+                    var path = Path.Combine(
+                        _environment.WebRootPath,
+                        image.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                }
+
+                // Upload new files
                 var folder = Path.Combine(
                     _environment.WebRootPath,
                     "uploads",
@@ -117,19 +135,14 @@ namespace Veloria_Store.mvc.Areas.Admin.Controllers
 
                 foreach (var image in model.Images)
                 {
-                    var fileName =
-                        Guid.NewGuid() +
-                        Path.GetExtension(image.FileName);
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
 
-                    var filePath =
-                        Path.Combine(folder, fileName);
+                    var filePath = Path.Combine(folder, fileName);
 
-                    using var stream =
-                        new FileStream(filePath, FileMode.Create);
-
+                    using var stream = new FileStream(filePath, FileMode.Create);
                     await image.CopyToAsync(stream);
 
-                    model.ImageUrls.Add("/uploads/products/" + fileName);
+                    model.ImageUrls.Add($"/uploads/products/{fileName}");
                 }
             }
 

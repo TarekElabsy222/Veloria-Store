@@ -31,11 +31,11 @@ namespace Veloria_Store.mvc.Controllers
             return View(product);
         }
 
-        public async Task<IActionResult> Shop(int page = 1)
+        public async Task<IActionResult> Shop(Guid? categoryId, int page = 1)
         {
-            var model = await _productService.GetShopProductsAsync(page);
+            var vm = await _productService.GetShopProductsAsync(categoryId, page);
 
-            return View(model);
+            return View(vm);
         }
         public async Task<IActionResult>Order()
         {

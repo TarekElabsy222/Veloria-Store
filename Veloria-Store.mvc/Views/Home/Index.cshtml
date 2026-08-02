@@ -28,7 +28,11 @@
             <div class="swiper-wrapper">
                 @foreach(var category in Model.Categories)
                 {
-                    <a asp-controller="Home" asp-action="Shop" class="category__item swiper-slide">
+                    <a asp-controller="Home"
+                       asp-action="Shop"
+                       asp-route-categoryId="@category.Id"
+                       asp-route-page="1"
+                       class="category__item swiper-slide">
                         <img src="@category.ImageUrl"  alt="@category.Name" class="category__img" />
                         <h3 class="category__title">@category.Name</h3>
                     </a>
@@ -244,7 +248,7 @@
                                 </h4>
                             </a>
                             <div class="showcase__price flex">
-                                <span class="new__price">$@product.Price</span>
+                                <span class="new__price">EGP @product.Price.ToString("N2")</span>
                                 @* <span class="old__price">$245.8</span> *@
                             </div>
                         </div>
@@ -268,7 +272,7 @@
                             </h4>
                         </a>
                         <div class="showcase__price flex">
-                            <span class="new__price">$@product.Price</span>
+                                <span class="new__price">EGP @product.Price.ToString("N2")</span>
                         </div>
                         </div>
                     </div>
@@ -292,7 +296,7 @@
                             </h4>
                         </a>
                         <div class="showcase__price flex">
-                            <span class="new__price">$@product.Price</span>
+                                <span class="new__price">EGP @product.Price.ToString("N2")</span>
                             @* <span class="old__price">$245.8</span> *@
                         </div>
                         </div>
@@ -318,7 +322,7 @@
                             </h4>
                         </a>
                         <div class="showcase__price flex">
-                            <span class="new__price">$@product.Price</span>
+                                <span class="new__price">EGP @product.Price.ToString("N2")</span>
                             @* <span class="old__price">$245.8</span> *@
                         </div>
                     </div>

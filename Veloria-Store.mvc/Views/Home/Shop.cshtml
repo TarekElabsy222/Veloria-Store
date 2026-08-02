@@ -1,14 +1,21 @@
 ﻿@model ShopVM
+
 @{
     ViewData["Title"] = "Shop Page";
 }
 
+
 <main class="main">
+
     <!--=============== BREADCRUMB ===============-->
     <section class="breadcrumb">
         <ul class="breadcrumb__list flex container">
-            <li><a asp-action="Index" asp-controller="Home" class="breadcrumb__link">Home</a></li>
-            <li><span class="breadcrumb__link"></span>></li>
+            <li>
+                <a asp-action="Index" asp-controller="Home" class="breadcrumb__link">
+                    Home
+                </a>
+            </li>
+            <li><span class="breadcrumb__link">></span></li>
             <li><span class="breadcrumb__link">Shop</span></li>
         </ul>
     </section>
@@ -16,78 +23,118 @@
     <!--=============== PRODUCTS ===============-->
     <section class="products container section--lg">
 
-        <div id="shop-content">
+        <div class="shop-layout">
 
-        <p class="total__products">We found <span>@Model.TotalProducts</span> items for you!</p>
-        <div class="products__container grid">
-            
-            @if (Model.Products.Any())
-            {
-                @foreach (var product in Model.Products)
-                {
-                    <partial name="_ProductCard" model="product" />
-                }
-            }
-            else
-            {
-                <div class="text-center">
-                    <h3>No products found.</h3>
-                </div>
-            }
-                       
-            
+            <!--========== Sidebar ==========-->
+            <aside class="shop-sidebar">
 
-        </div>
-        <!--============== PAGINATION ==============-->
-        @if (Model.TotalPages > 1)
-        {
-            <ul class="pagination">
+                <h3 class="sidebar__title">Categories</h3>
 
-                @if (Model.CurrentPage > 1)
-                {
+                <ul class="category-list">
+
                     <li>
                         <a asp-action="Shop"
                            asp-controller="Home"
-                           asp-route-page="@(Model.CurrentPage - 1)"
-                           class="pagination__link icon">
-                            <i class="fi-rs-angle-double-small-left"></i>
+                           asp-route-page="1"
+                           class="@(Model.SelectedCategoryId == null ? "active" : "")">
+                            All Products
                         </a>
                     </li>
-                }
 
-                @for (int i = 1; i <= Model.TotalPages; i++)
+                    @foreach (var category in Model.Categories)
+                    {
+                        <li>
+                            <a asp-action="Shop"
+                               asp-controller="Home"
+                               asp-route-categoryId="@category.Id"
+                               asp-route-page="1"
+                               class="@(Model.SelectedCategoryId == category.Id ? "active" : "")">
+
+                                @category.Name
+
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+
+            </aside>
+
+            <!--========== Products ==========-->
+            <div class="shop-content">
+
+                <p class="total__products">
+                    We found <span>@Model.TotalProducts</span> items for you!
+                </p>
+
+                <div class="products__container grid">
+
+                    @if (Model.Products.Any())
+                    {
+                        @foreach (var product in Model.Products)
+                        {
+                            <partial name="_ProductCard" model="product" />
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center">
+                            <h3>No products found.</h3>
+                        </div>
+                    }
+
+                </div>
+
+                @if (Model.TotalPages > 1)
                 {
-                    <li>
-                        <a asp-action="Shop"
-                        asp-controller="Home"
-                           asp-route-page="@i"
-                           class="pagination__link @(i == Model.CurrentPage ? "active" : "")">
-                            @i
-                        </a>
-                    </li>
+                    <ul class="pagination">
+
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <li>
+                                <a asp-action="Shop"
+                                   asp-controller="Home"
+                                   asp-route-categoryId="@Model.SelectedCategoryId"
+                                   asp-route-page="@(Model.CurrentPage - 1)"
+                                   class="pagination__link icon">
+                                    <i class="fi-rs-angle-double-small-left"></i>
+                                </a>
+                            </li>
+                        }
+
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li>
+                                <a asp-action="Shop"
+                                   asp-controller="Home"
+                                   asp-route-categoryId="@Model.SelectedCategoryId"
+                                   asp-route-page="@i"
+                                   class="pagination__link @(i == Model.CurrentPage ? "active" : "")">
+                                    @i
+                                </a>
+                            </li>
+                        }
+
+                        @if (Model.CurrentPage < Model.TotalPages)
+                        {
+                            <li>
+                                <a asp-action="Shop"
+                                   asp-controller="Home"
+                                   asp-route-categoryId="@Model.SelectedCategoryId"
+                                   asp-route-page="@(Model.CurrentPage + 1)"
+                                   class="pagination__link icon">
+                                    <i class="fi-rs-angle-double-small-right"></i>
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
                 }
 
-                @if (Model.CurrentPage < Model.TotalPages)
-                {
-                    <li>
-                        <a asp-action="Shop"
-                        asp-controller="Home"
-                           asp-route-page="@(Model.CurrentPage + 1)"
-                           class="pagination__link icon">
-                            <i class="fi-rs-angle-double-small-right"></i>
-                        </a>
-                    </li>
-                }
+            </div>
 
-            </ul>
-        }
-   
-    
-    
-
-    </div>
+        </div>
 
     </section>
 
-    
 </main>

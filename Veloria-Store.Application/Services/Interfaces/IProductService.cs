@@ -21,7 +21,7 @@ namespace Veloria_Store.Application.Services.Interfaces
         Task<List<ProductCardVM>> GetPagedProductsAsync(int page, int pageSize);
 
         Task<List<ProductCardVM>> SearchAsync(string keyword);
-        Task<ShopVM> GetShopProductsAsync(int page);
+        Task<ShopVM> GetShopProductsAsync(Guid? categoryId, int page);
 
         Task<HomeVM> GetHomeAsync();
 

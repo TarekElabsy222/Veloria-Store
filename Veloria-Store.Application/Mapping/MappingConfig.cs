@@ -2,6 +2,7 @@
 using Veloria_Store.Application.ViewModels.BrandViewModel;
 using Veloria_Store.Application.ViewModels.CategoryViiewModels;
 using Veloria_Store.Application.ViewModels.Checkout;
+using Veloria_Store.Application.ViewModels.HomeViewModel;
 using Veloria_Store.Application.ViewModels.Order;
 using Veloria_Store.Application.ViewModels.ProductViewModels;
 using Veloria_Store.Domain.Entities;
@@ -48,6 +49,7 @@ namespace Veloria_Store.Application.Mapping
             .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Images.Select(i => i.ImageUrl).FirstOrDefault()));
             // mapping category
             CreateMap<Category, CategoryVM>();
+            CreateMap<Category, CategoryShopVM>();
 
             // mapping brand
             CreateMap<Brand, BrandVM>();

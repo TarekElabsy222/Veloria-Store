@@ -16,10 +16,14 @@ namespace Veloria_Store.Domain.Repositories.Interfaces
         Task<List<Product>> GetRelatedProductsAsync(Guid productId, Guid categoryId, int count);
 
         Task<List<Product>> GetPagedProductsAsync(int page, int pageSize);
+        Task<List<Product>> GetPagedShopProductsAsync( int page,  int pageSize, Guid? categoryId);
 
         Task<List<Product>> SearchAsync(string keyword);
 
         Task<Product?> GetDetailsAsync(Guid id);
         Task<List<Product>> GetAllProductsAsync();
+        Task<int> CountShopAsync(Guid? categoryId);
+        void RemoveRange(IEnumerable<ProductImage> images);
+        Task DeleteImagesAsync(Guid productId);
     }
 }

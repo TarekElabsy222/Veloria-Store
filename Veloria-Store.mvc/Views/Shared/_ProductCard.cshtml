@@ -61,14 +61,14 @@
                 var newPrice = Model.Price - (Model.Price * Model.DiscountPercentage / 100);
 
                 <span class="new__price">
-                    @newPrice.ToString("C")
+                    EGP @Model.Price.ToString("N2")
                 </span>
 
             }
             else
             {
                 <span class="new__price">
-                    @Model.Price.ToString("C")
+                    EGP @Model.Price.ToString("N2")
                 </span>
             }
 

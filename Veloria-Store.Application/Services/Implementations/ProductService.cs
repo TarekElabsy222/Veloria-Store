@@ -11,6 +11,7 @@ namespace Veloria_Store.Application.Services.Implementations
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IProductImageRepository _productImageRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -19,12 +20,14 @@ namespace Veloria_Store.Application.Services.Implementations
             IProductRepository productRepository,
             IMapper mapper,
             ICategoryRepository categoryRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IProductImageRepository productImageRepository)
         {
             _productRepository = productRepository;
             _mapper = mapper;
             _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
+            _productImageRepository = productImageRepository;
         }
 
         public async Task<List<ProductCardVM>> GetFeaturedAsync(int count)
@@ -134,17 +137,23 @@ namespace Veloria_Store.Application.Services.Implementations
 
         }
 
-        public async Task<ShopVM> GetShopProductsAsync(int page)
+        public async Task<ShopVM> GetShopProductsAsync(Guid? categoryId, int page)
         {
             const int pageSize = 12;
 
-            var products = await _productRepository.GetPagedProductsAsync(page, pageSize);
+            var products = await _productRepository.GetPagedShopProductsAsync(page, pageSize, categoryId);
 
-            var totalProducts = await _productRepository.CountAsync();
+            var totalProducts = await _productRepository.CountShopAsync(categoryId);
+
+            var categories = await _categoryRepository.GetAllAsync();
 
             return new ShopVM
             {
                 Products = _mapper.Map<List<ProductCardVM>>(products),
+
+                Categories = _mapper.Map<List<CategoryShopVM>>(categories),
+
+                SelectedCategoryId = categoryId,
 
                 CurrentPage = page,
 
@@ -202,19 +211,21 @@ namespace Veloria_Store.Application.Services.Implementations
 
             _mapper.Map(model, product);
 
-            product.Images.Clear();
-
-            foreach (var image in model.ImageUrls)
+            if (model.ImageUrls != null && model.ImageUrls.Any())
             {
-                product.Images.Add(new ProductImage
+                // Remove old images
+                _productImageRepository.RemoveRange(product.Images);
+
+                // Add new images
+                var newImages = model.ImageUrls.Select(imageUrl => new ProductImage
                 {
                     Id = Guid.NewGuid(),
                     ProductId = product.Id,
-                    ImageUrl = image
+                    ImageUrl = imageUrl
                 });
-            }
 
-            _productRepository.update(product);
+                await _productImageRepository.AddRangeAsync(newImages);
+            }
 
             await _unitOfWork.SaveChangesAsync();
         }

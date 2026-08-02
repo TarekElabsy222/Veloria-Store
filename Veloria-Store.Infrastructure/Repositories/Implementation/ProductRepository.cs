@@ -19,7 +19,7 @@ namespace Veloria_Store.Infrastructure.Repositories.Implementation
         {
             return await _context.Products.Include(p => p.Brand)
                 .Include(p => p.Category).Include(p => p.Images)
-                .AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
         public async Task<List<Product>> GetAllProductsAsync()
         {
@@ -95,6 +95,50 @@ namespace Veloria_Store.Infrastructure.Repositories.Implementation
             return await _context.Products.Where(p => p.DiscountPercentage > 0)
                 .Include(p => p.Images).OrderByDescending(p => p.DiscountPercentage)
                 .Take(3).AsNoTracking().ToListAsync();
+        }
+        public async Task<List<Product>> GetPagedShopProductsAsync(  int page,  int pageSize,  Guid? categoryId)
+        {
+            var query = _context.Products
+                .Include(x => x.Images)
+                .AsQueryable();
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(x => x.CategoryId == categoryId.Value);
+            }
+
+            return await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+        public async Task<int> CountShopAsync(Guid? categoryId)
+        {
+            var query = _context.Products.AsQueryable();
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(x => x.CategoryId == categoryId.Value);
+            }
+
+            return await query.CountAsync();
+        }
+
+
+        public async Task DeleteImagesAsync(Guid productId)
+        {
+            var images = await _context.Images
+                .Where(x => x.ProductId == productId)
+                .ToListAsync();
+
+            foreach (var image in images)
+            {
+                _context.Images.Remove(image);
+            }
+        }
+        public void RemoveRange(IEnumerable<ProductImage> images)
+        {
+            _context.Images.RemoveRange(images);
         }
     }
 }

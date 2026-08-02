@@ -46,6 +46,7 @@ namespace Veloria_Store.Infrastructure.DependencyInjection
             services.AddScoped<ICookieCartService, CookieCartService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
+            services.AddScoped<IProductImageRepository, ProductImageRepository>();
             return services;
         }
         public static IApplicationBuilder UseExceptionHandlerMiddleWare(this IApplicationBuilder app)
